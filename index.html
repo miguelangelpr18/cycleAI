@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0A0C10">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>CycleAI · Feedback Mike</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0A0C10;
+  --bg-card: #12151C;
+  --bg-elev: #1E2229;
+  --border: #1E2229;
+  --text: #E8E8E8;
+  --text-secondary: #999;
+  --accent: #3A7D5C;
+  --accent-bright: #4ADE80;
+  --blue: #5B8DEF;
+  --amber: #E8A84C;
+  --red: #E85D5D;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding-bottom: 100px;
+}
+
+/* PROGRESS BAR */
+.progress-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--border);
+  z-index: 100;
+}
+.progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--accent), var(--blue));
+  width: 0%; transition: width 0.3s ease;
+}
+
+/* HEADER */
+header {
+  padding: 20px 20px 12px;
+  position: sticky; top: 3px;
+  background: rgba(10,12,16,0.95);
+  backdrop-filter: blur(8px);
+  z-index: 50;
+  border-bottom: 1px solid var(--border);
+}
+.brand {
+  display: flex; align-items: center; gap: 10px;
+}
+.brand-logo {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--blue));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; color: white; font-size: 14px;
+}
+.brand-text h1 {
+  font-size: 16px; font-weight: 700; letter-spacing: -0.2px;
+}
+.brand-text p {
+  font-size: 11px; color: var(--text-secondary); letter-spacing: 1px; text-transform: uppercase;
+}
+
+/* CONTAINER */
+main {
+  max-width: 600px; margin: 0 auto; padding: 20px;
+}
+
+/* SECTION */
+.section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.section-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+}
+.section-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--bg-elev);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+.section-title {
+  font-size: 14px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px;
+  color: var(--accent-bright);
+}
+.section-sub {
+  font-size: 12px; color: var(--text-secondary); margin-top: 2px;
+}
+
+/* FIELD */
+.field { margin-bottom: 16px; }
+.field:last-child { margin-bottom: 0; }
+.field-label {
+  display: block; margin-bottom: 8px;
+  font-size: 13px; font-weight: 600; color: var(--text);
+}
+.field-hint {
+  font-size: 11px; color: var(--text-secondary); font-weight: 400; margin-top: 4px;
+}
+
+/* SLIDER */
+.slider-wrap {
+  background: var(--bg-elev);
+  border-radius: 12px; padding: 16px;
+}
+.slider-value {
+  text-align: center; font-size: 36px; font-weight: 800;
+  color: var(--accent-bright); line-height: 1; margin-bottom: 4px;
+}
+.slider-label {
+  text-align: center; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--text-secondary); margin-bottom: 14px;
+}
+input[type="range"] {
+  width: 100%; -webkit-appearance: none; appearance: none;
+  height: 6px; border-radius: 3px;
+  background: var(--border);
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent-bright); cursor: pointer;
+  box-shadow: 0 2px 8px rgba(74,222,128,0.4);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent-bright); cursor: pointer;
+  border: none; box-shadow: 0 2px 8px rgba(74,222,128,0.4);
+}
+.slider-marks {
+  display: flex; justify-content: space-between;
+  margin-top: 6px; font-size: 10px; color: var(--text-secondary);
+}
+
+/* INPUT TEXT/NUMBER */
+input[type="text"], input[type="number"], textarea, select, input[type="date"] {
+  width: 100%; padding: 12px 14px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text); font-size: 15px;
+  font-family: inherit;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none; border-color: var(--accent);
+}
+textarea { min-height: 80px; resize: vertical; }
+
+/* RADIO/CHECKBOX */
+.radio-group {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+}
+.radio-option {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+  font-size: 13px; font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.radio-option.selected {
+  background: rgba(74,222,128,0.12);
+  border-color: var(--accent-bright);
+  color: var(--accent-bright);
+}
+.radio-option input { display: none; }
+
+/* TOGGLE */
+.toggle-wrap {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--bg-elev); border-radius: 10px; padding: 12px 16px;
+}
+.toggle {
+  width: 50px; height: 28px;
+  background: var(--border); border-radius: 14px;
+  position: relative; cursor: pointer;
+  transition: background 0.2s;
+}
+.toggle::after {
+  content: ""; position: absolute; top: 3px; left: 3px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: white; transition: left 0.2s;
+}
+.toggle.active { background: var(--accent-bright); }
+.toggle.active::after { left: 25px; }
+.toggle input { display: none; }
+
+/* CONDITIONAL FIELD (hidden by default) */
+.cond-field { display: none; margin-top: 12px; }
+.cond-field.show { display: block; }
+
+/* SUBMIT */
+.submit-wrap {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  padding: 16px 20px;
+  background: rgba(10,12,16,0.96);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--border);
+  z-index: 50;
+}
+.submit-btn {
+  width: 100%; padding: 16px;
+  background: linear-gradient(135deg, var(--accent), var(--blue));
+  border: 0; border-radius: 12px;
+  color: white; font-size: 16px; font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.1s, opacity 0.2s;
+}
+.submit-btn:active { transform: scale(0.98); }
+.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* SUCCESS */
+.success-overlay {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  display: none; align-items: center; justify-content: center;
+  flex-direction: column; gap: 16px;
+  z-index: 200;
+  animation: fadeIn 0.3s;
+}
+.success-overlay.show { display: flex; }
+.success-icon {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: var(--accent-bright);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px; color: var(--bg);
+  animation: pop 0.4s ease;
+}
+.success-text h2 { text-align: center; font-size: 22px; }
+.success-text p { text-align: center; color: var(--text-secondary); margin-top: 6px; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop { 0% { transform: scale(0); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
+
+/* ROW (2 columns) */
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* MOBILE */
+@media (max-width: 600px) {
+  main { padding: 16px; }
+  .section { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<header>
+  <div class="brand">
+    <div class="brand-logo">CY</div>
+    <div class="brand-text">
+      <h1>Feedback de Sesión</h1>
+      <p>CycleAI · Mike</p>
+    </div>
+  </div>
+</header>
+
+<main>
+<form id="feedbackForm">
+
+  <!-- 1. IDENTIFICACIÓN -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">📅</div>
+      <div>
+        <div class="section-title">Sesión</div>
+        <div class="section-sub">¿Qué sesión hiciste hoy?</div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Fecha</label>
+      <input type="date" id="session_date" required>
+    </div>
+    <div class="field">
+      <label class="field-label">Nombre de la sesión</label>
+      <input type="text" id="session_name" placeholder="Ej: Umbral Funcional Sostenido" required>
+    </div>
+  </div>
+
+  <!-- 2. PERFORMANCE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">⚡</div>
+      <div>
+        <div class="section-title">Performance</div>
+        <div class="section-sub">Cómo te fue</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Sensación general</label>
+      <div class="slider-wrap">
+        <div class="slider-value" id="overall_feel_v">7</div>
+        <div class="slider-label">de 10</div>
+        <input type="range" id="overall_feel" min="1" max="10" value="7">
+        <div class="slider-marks"><span>Pésimo</span><span>Brutal</span></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">RPE — esfuerzo percibido</label>
+      <div class="slider-wrap">
+        <div class="slider-value" id="rpe_v">6</div>
+        <div class="slider-label">de 10</div>
+        <input type="range" id="rpe" min="1" max="10" value="6">
+        <div class="slider-marks"><span>Easy</span><span>Max</span></div>
+      </div>
+      <div class="field-hint">1-3 muy fácil · 4-6 moderado · 7-8 duro · 9-10 al límite</div>
+    </div>
+
+    <div class="row-2">
+      <div class="field">
+        <label class="field-label">Duración real (min)</label>
+        <input type="number" id="duration_actual_min" min="0" placeholder="90">
+      </div>
+      <div class="field">
+        <label class="field-label">% intervalos completados</label>
+        <input type="number" id="intervals_completed_pct" min="0" max="100" value="100">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">¿Completaste el plan?</label>
+      <div class="radio-group" id="completion">
+        <label class="radio-option" data-value="full">Completo</label>
+        <label class="radio-option" data-value="partial">Parcial</label>
+        <label class="radio-option" data-value="no">No pude</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. SENSACIONES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🧠</div>
+      <div>
+        <div class="section-title">Sensaciones</div>
+        <div class="section-sub">Físico y mental</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Piernas</label>
+      <div class="slider-wrap">
+        <div class="slider-value" id="legs_feel_v">7</div>
+        <div class="slider-label">de 10</div>
+        <input type="range" id="legs_feel" min="1" max="10" value="7">
+        <div class="slider-marks"><span>Trabadas</span><span>Voladoras</span></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Mental</label>
+      <div class="slider-wrap">
+        <div class="slider-value" id="mental_feel_v">7</div>
+        <div class="slider-label">de 10</div>
+        <input type="range" id="mental_feel" min="1" max="10" value="7">
+        <div class="slider-marks"><span>Sin foco</span><span>En zona</span></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Motivación / disfrute</label>
+      <div class="slider-wrap">
+        <div class="slider-value" id="motivation_v">7</div>
+        <div class="slider-label">de 10</div>
+        <input type="range" id="motivation" min="1" max="10" value="7">
+        <div class="slider-marks"><span>Sin ganas</span><span>Encendido</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. SALUD -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🩹</div>
+      <div>
+        <div class="section-title">Salud</div>
+        <div class="section-sub">¿Algún dolor o molestia?</div>
+      </div>
+    </div>
+
+    <div class="toggle-wrap">
+      <span style="font-size: 13px; font-weight: 600;">¿Tuviste molestia o dolor?</span>
+      <div class="toggle" id="pain_toggle">
+        <input type="checkbox" id="pain_present">
+      </div>
+    </div>
+
+    <div class="cond-field" id="pain_details">
+      <div class="field" style="margin-top: 12px;">
+        <label class="field-label">Ubicación</label>
+        <input type="text" id="pain_location" placeholder="Ej: rodilla derecha, espalda baja">
+      </div>
+      <div class="field">
+        <label class="field-label">Intensidad</label>
+        <div class="slider-wrap">
+          <div class="slider-value" id="pain_intensity_v">3</div>
+          <div class="slider-label">de 10</div>
+          <input type="range" id="pain_intensity" min="0" max="10" value="3">
+          <div class="slider-marks"><span>Leve</span><span>Severo</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. RECUPERACIÓN -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">😴</div>
+      <div>
+        <div class="section-title">Recuperación</div>
+        <div class="section-sub">Sueño anoche</div>
+      </div>
+    </div>
+    <div class="row-2">
+      <div class="field">
+        <label class="field-label">Horas de sueño</label>
+        <input type="number" id="sleep_hours" min="0" max="14" step="0.5" placeholder="7.5">
+      </div>
+      <div class="field">
+        <label class="field-label">Calidad (1-10)</label>
+        <input type="number" id="sleep_quality" min="1" max="10" placeholder="8">
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. NUTRICIÓN -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🥗</div>
+      <div>
+        <div class="section-title">Nutrición</div>
+        <div class="section-sub">Fuel & peso</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">¿Qué comiste durante la sesión?</label>
+      <input type="text" id="fueling_during" placeholder="Ej: 2 geles + 1 barra · 60g/h">
+      <div class="field-hint">Si no comiste: déjalo vacío o pon "nada"</div>
+    </div>
+
+    <div class="row-2">
+      <div class="field">
+        <label class="field-label">Hidratación (litros)</label>
+        <input type="number" id="hydration_liters" min="0" max="10" step="0.5" placeholder="1.5">
+      </div>
+      <div class="field">
+        <label class="field-label">Peso esta mañana (kg)</label>
+        <input type="number" id="weight_morning_kg" min="40" max="120" step="0.1" placeholder="63.0">
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. NOTAS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">📝</div>
+      <div>
+        <div class="section-title">Notas</div>
+        <div class="section-sub">Lo que tu coach debe saber</div>
+      </div>
+    </div>
+    <div class="field">
+      <textarea id="notes" placeholder="Cualquier observación: clima, mecánica, eventos, sensación específica, lo que sea..."></textarea>
+    </div>
+  </div>
+
+</form>
+</main>
+
+<div class="submit-wrap">
+  <button type="button" class="submit-btn" id="submitBtn">Enviar feedback al coach</button>
+</div>
+
+<div class="success-overlay" id="successOverlay">
+  <div class="success-icon">✓</div>
+  <div class="success-text">
+    <h2>¡Reportado!</h2>
+    <p>Tu coach ya tiene el feedback.<br>El próximo plan se ajusta solo.</p>
+  </div>
+</div>
+
+<script>
+// =========================================================
+// CONFIG — APUNTAR A WEBHOOK n8n
+// =========================================================
+const WEBHOOK_URL = 'https://b124-187-190-23-23.ngrok-free.app/webhook/feedback-mike';
+
+// =========================================================
+// SETUP
+// =========================================================
+document.getElementById('session_date').valueAsDate = new Date();
+
+// Sliders → mostrar valor en vivo
+['overall_feel','rpe','legs_feel','mental_feel','motivation','pain_intensity'].forEach(id => {
+  const el = document.getElementById(id);
+  const v = document.getElementById(id + '_v');
+  if (el && v) el.addEventListener('input', () => v.textContent = el.value);
+});
+
+// Radio group "completion"
+document.querySelectorAll('#completion .radio-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('#completion .radio-option').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    opt.dataset.checked = '1';
+  });
+});
+
+// Toggle dolor
+const painToggle = document.getElementById('pain_toggle');
+const painDetails = document.getElementById('pain_details');
+const painCheckbox = document.getElementById('pain_present');
+painToggle.addEventListener('click', () => {
+  painCheckbox.checked = !painCheckbox.checked;
+  painToggle.classList.toggle('active', painCheckbox.checked);
+  painDetails.classList.toggle('show', painCheckbox.checked);
+});
+
+// Progress bar (% scroll)
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = (scrollTop / docHeight) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+});
+
+// =========================================================
+// SUBMIT
+// =========================================================
+document.getElementById('submitBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  // Recoger todos los valores
+  const completionEl = document.querySelector('#completion .radio-option.selected');
+  const data = {
+    athlete_id: 'i388859',
+    session_date: document.getElementById('session_date').value,
+    session_name: document.getElementById('session_name').value || null,
+    overall_feel: parseInt(document.getElementById('overall_feel').value),
+    rpe: parseInt(document.getElementById('rpe').value),
+    duration_actual_min: parseInt(document.getElementById('duration_actual_min').value) || null,
+    completion: completionEl ? completionEl.dataset.value : null,
+    intervals_completed_pct: parseInt(document.getElementById('intervals_completed_pct').value) || null,
+    legs_feel: parseInt(document.getElementById('legs_feel').value),
+    mental_feel: parseInt(document.getElementById('mental_feel').value),
+    motivation: parseInt(document.getElementById('motivation').value),
+    pain_present: painCheckbox.checked,
+    pain_location: painCheckbox.checked ? document.getElementById('pain_location').value : null,
+    pain_intensity: painCheckbox.checked ? parseInt(document.getElementById('pain_intensity').value) : null,
+    sleep_hours: parseFloat(document.getElementById('sleep_hours').value) || null,
+    sleep_quality: parseInt(document.getElementById('sleep_quality').value) || null,
+    fueling_during: document.getElementById('fueling_during').value || null,
+    hydration_liters: parseFloat(document.getElementById('hydration_liters').value) || null,
+    weight_morning_kg: parseFloat(document.getElementById('weight_morning_kg').value) || null,
+    notes: document.getElementById('notes').value || null
+  };
+
+  try {
+    const res = await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    document.getElementById('successOverlay').classList.add('show');
+    setTimeout(() => {
+      document.getElementById('successOverlay').classList.remove('show');
+      document.getElementById('feedbackForm').reset();
+      document.getElementById('session_date').valueAsDate = new Date();
+      btn.disabled = false;
+      btn.textContent = 'Enviar feedback al coach';
+    }, 2500);
+  } catch (e) {
+    alert('Error al enviar: ' + e.message + '\n\nVerifica tu conexión.');
+    btn.disabled = false;
+    btn.textContent = 'Enviar feedback al coach';
+  }
+});
+</script>
+
+</body>
+</html>
